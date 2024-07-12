@@ -1,15 +1,7 @@
-import Controller.AccountController;
-import Controller.TransactionController;
-import Entity.Account;
-import Entity.Customer;
-import Entity.Transaction;
-import Repository.AccountRepo;
-import Repository.CustomerRepo;
-import Repository.TransactionRepo;
-import Service.CalculateProfitThread;
-import Service.DepositThread;
-import Service.TransactionHistory;
-import Service.WithdrawalThread;
+import Controller.*;
+import Entity.*;
+import Repository.*;
+import Service.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
