@@ -1,20 +1,15 @@
 package Controller;
 
 import Entity.Account;
-import Entity.ECurrency;
-import Entity.EType;
 import Entity.Transaction;
 import Repository.AccountRepo;
 import Service.TransactionHistory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class AccountController {
     public static AccountRepo accountRepo;
