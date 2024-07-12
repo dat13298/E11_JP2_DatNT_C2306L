@@ -14,9 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TransactionHistory {
-    private List<Account> accounts;
     private List<Transaction> transactions;
-    private TransactionRepo transactionRepo;
 
     public TransactionHistory(List<Transaction> transactions) {
         this.transactions = transactions;
@@ -25,7 +23,7 @@ public class TransactionHistory {
     public Map<Account, List<Transaction>> getTransactionByDate(LocalDate startDate, LocalDate endDate) {
         return transactions.stream()
                 .filter(t-> t.getDatetime().isAfter(startDate.atStartOfDay())
-                            &&t.getDatetime().isBefore(endDate.atStartOfDay()))
+                            && t.getDatetime().isBefore(endDate.atStartOfDay()))
                 .collect(Collectors.groupingBy(Transaction::getAccount));
     }
 

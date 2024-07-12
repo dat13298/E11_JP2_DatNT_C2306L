@@ -2,17 +2,17 @@ package Service;
 
 import Entity.Account;
 import Entity.EStatus;
+import Entity.EType;
 import Entity.Transaction;
-import Repository.AccountRepo;
 import Repository.TransactionRepo;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class DepositThread extends BankService implements Runnable {
 
-    public DepositThread(List<Account> accounts, Transaction transaction, AccountRepo accountRepo, TransactionRepo transactionRepo, String transactionPath, String accountPath) {
-        super(accounts, transaction, accountRepo, transactionRepo, transactionPath, accountPath);
+
+    public DepositThread(Transaction transaction, TransactionRepo transactionRepo, String transactionPath) {
+        super(transaction, transactionRepo, transactionPath);
     }
 
     @Override
@@ -20,9 +20,13 @@ public class DepositThread extends BankService implements Runnable {
         super.getTransaction().getAccount().setBalance(
                 super.getTransaction().getAmount() + super.getTransaction().getAccount().getBalance()
         );
-        super.getTransaction().setStatus(EStatus.C);
-        super.getTransaction().setDatetime(LocalDateTime.now());
-        super.getTransactionRepo().addT(super.getTransaction());
+        Transaction newTransaction = new Transaction();
+        newTransaction.setAmount(super.getTransaction().getAmount());
+        newTransaction.setAccount(super.getTransaction().getAccount());
+        newTransaction.setType(EType.DEPOSIT);
+        newTransaction.setStatus(EStatus.C);
+        newTransaction.setDatetime(LocalDateTime.now());
+        super.getTransactionRepo().addT(newTransaction);
 
         if (super.getTransaction().getStatus() == EStatus.C) {
             System.out.println("Deposit successful your Balance: " + super.getTransaction().getAccount().getBalance());

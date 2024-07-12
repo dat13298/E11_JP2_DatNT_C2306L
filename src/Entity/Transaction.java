@@ -1,6 +1,7 @@
 package Entity;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class Transaction {
     private int id;
@@ -34,6 +35,9 @@ public class Transaction {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+    public void setAccount(Optional<Account> account) {
+        this.account = account.get();
     }
 
     public double getAmount() {
@@ -70,13 +74,16 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction{" +
-                "id=" + id +
-                ", account=" + account +
-                ", amount=" + amount +
-                ", type=" + type +
-                ", datetime=" + datetime +
-                ", status=" + status +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        return builder.append(id)
+                .append(";")
+                .append(account.getId())
+                .append(";")
+                .append(amount)
+                .append(";")
+                .append(datetime)
+                .append(";")
+                .append(status.getStatus())
+                .toString();
     }
 }

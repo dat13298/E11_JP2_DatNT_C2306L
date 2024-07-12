@@ -1,5 +1,7 @@
 package Entity;
 
+import java.util.Optional;
+
 public class Account {
     private String id;
     private Customer customer;
@@ -29,6 +31,9 @@ public class Account {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+    public void setCustomer(Optional<Customer> customer){
+        this.customer = customer.orElse(null);
+    }
 
     public double getBalance() {
         return balance;
@@ -48,11 +53,14 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "id='" + id + '\'' +
-                ", customer=" + customer +
-                ", balance=" + balance +
-                ", currency=" + currency +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        return builder.append(id)
+                .append(";")
+                .append(customer.getId())
+                .append(";")
+                .append(balance)
+                .append(";")
+                .append(currency.toString())
+                .toString();
     }
 }

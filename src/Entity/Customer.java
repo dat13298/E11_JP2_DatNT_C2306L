@@ -39,10 +39,12 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        return builder.append(id)
+                .append(";")
+                .append(name)
+                .append(";")
+                .append(phone)
+                .toString();
     }
 }

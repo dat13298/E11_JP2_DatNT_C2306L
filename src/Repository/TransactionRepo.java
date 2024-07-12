@@ -1,5 +1,6 @@
 package Repository;
 
+import Entity.Account;
 import Entity.EStatus;
 import Entity.EType;
 import Entity.Transaction;
@@ -12,13 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class TransactionRepo implements IBankRepository<Transaction> {
-    private List<Transaction> transactions;
-    private AccountRepo accountRepo;
-
-    public TransactionRepo(List<Transaction> transactions, AccountRepo accountRepo) {
-        this.transactions = transactions;
-        this.accountRepo = accountRepo;
-    }
+    public static List<Transaction> transactions;
 
     @Override
     public List<Transaction> getAll(String filePath) {
@@ -30,9 +25,11 @@ public class TransactionRepo implements IBankRepository<Transaction> {
                 String[] data = line.split(";");
                 Transaction transaction = new Transaction();
                 transaction.setId(Integer.parseInt(data[0]));
-                if (accountRepo.findById(data[1]).isPresent()) {
-                    transaction.setAccount(accountRepo.findById(data[1]).get());
-                }
+
+                Account account = new Account();
+                account.setId(data[1]);
+                transaction.setAccount(Optional.of(account));
+
                 transaction.setAmount(Double.parseDouble(data[2]));
                 transaction.setType(EType.valueOf(data[3]));
                 transaction.setDatetime(Format.toLocalDateTime(data[4]));

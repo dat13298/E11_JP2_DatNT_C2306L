@@ -6,15 +6,12 @@ import Global.Validation;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class CustomerRepo implements IBankRepository<Customer> {
-    private final List<Customer> customers;
-
-    public CustomerRepo(List<Customer> customers) {
-        this.customers = customers;
-    }
+    public static List<Customer> customers;
 
     @Override
     public List<Customer> getAll(String filePath) {

@@ -12,13 +12,7 @@ import java.util.Optional;
 import java.util.List;
 
 public class AccountRepo implements IBankRepository<Account> {
-    private List<Account> accounts;
-    private CustomerRepo customerRepo;
-
-    public AccountRepo(List<Account> accounts, CustomerRepo accountRepo) {
-        this.accounts = accounts;
-        this.customerRepo = accountRepo;
-    }
+    public static List<Account> accounts;
 
     @Override
     public List<Account> getAll(String filePath) {
@@ -30,8 +24,11 @@ public class AccountRepo implements IBankRepository<Account> {
                 String[] data = line.split(";");
                 Account account = new Account();
                 account.setId(data[0]);
-                Customer customer = customerRepo.getById(Integer.parseInt(data[1])).get();
-                account.setCustomer(customer);
+
+                Customer customer = new Customer();
+                customer.setId(Integer.parseInt(data[1]));
+
+                account.setCustomer(Optional.of(customer));
                 account.setBalance(Double.parseDouble(data[2]));
                 account.setCurrency(ECurrency.valueOf(data[3]));
                 accounts.add(account);

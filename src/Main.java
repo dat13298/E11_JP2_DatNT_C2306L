@@ -35,14 +35,23 @@ public class Main {
         String transactionHistoryPath = rootPath + "/data/Account.id_transaction_history.txt";
 
 
-        CustomerRepo customerRepo = new CustomerRepo(customers);
-        AccountRepo accountRepo = new AccountRepo(accounts, customerRepo);
-        TransactionRepo transactionRepo = new TransactionRepo(transactions, accountRepo);
-        TransactionHistory transactionHistory = new TransactionHistory(transactions);
+        CustomerRepo customerRepo = new CustomerRepo();
+        AccountRepo accountRepo = new AccountRepo();
+        TransactionRepo transactionRepo = new TransactionRepo();
+
+        TransactionRepo.transactions = transactions;
+        CustomerRepo.customers = customers;
+        AccountRepo.accounts = accounts;
 
         customerRepo.getAll(customerPath);
         accountRepo.getAll(accountPath);
         transactionRepo.getAll(transactionPath);
+
+        TransactionHistory transactionHistory = new TransactionHistory(transactions);
+
+        customers.forEach(System.out::println);
+        accounts.forEach(System.out::println);
+        transactions.forEach(System.out::println);
 
         TransactionController.accountRepo = accountRepo;
         TransactionController.transactionRepo = transactionRepo;
@@ -70,12 +79,9 @@ public class Main {
                         System.out.println("------- Deposit -------");
                         deposit();//input for deposit
                         DepositThread depositThread = new DepositThread(
-                                accounts
-                                , transaction
-                                , accountRepo
+                                transaction
                                 , transactionRepo
                                 , transactionPath
-                                , accountPath
                         );
                         Thread thread = new Thread(depositThread);
                         thread.start();
@@ -84,17 +90,15 @@ public class Main {
                         }catch (InterruptedException e){
                             System.out.println(e.getMessage());
                         }
+                        transactions.forEach(System.out::println);
                         break;
                     case "2":
                         System.out.println("------- Withdrawal -------");
                         withdraw();//input for withdraw
                         WithdrawalThread withdrawalThread = new WithdrawalThread(
-                                accounts
-                                , transaction
-                                , accountRepo
+                                transaction
                                 , transactionRepo
                                 , transactionPath
-                                , accountPath
                         );
                         Thread thread2 = new Thread(withdrawalThread);
                         thread2.start();
@@ -103,6 +107,7 @@ public class Main {
                         }catch (InterruptedException e){
                             System.out.println(e.getMessage());
                         }
+                        transactions.forEach(System.out::println);
                         break;
                     case "3":
                         System.out.println("------- Balance -------");
@@ -127,12 +132,9 @@ public class Main {
                             CalculateProfitThread calculateProfitThread = new CalculateProfitThread(transaction, percentProfit, accountChecked);
                             // deposit profit thread
                             DepositThread depositProfitThread = new DepositThread(
-                                    accounts
-                                    , transaction
-                                    , accountRepo
+                                    transaction
                                     , transactionRepo
                                     , transactionPath
-                                    , accountPath
                             );
                             Thread thread3 = new Thread(calculateProfitThread);
                             Thread thread4 = new Thread(depositProfitThread);
